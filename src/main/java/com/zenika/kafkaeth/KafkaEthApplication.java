@@ -8,13 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.web3j.protocol.Web3j;
-import org.web3j.protocol.core.methods.response.EthBlock;
 import rx.Subscription;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 public class KafkaEthApplication {
@@ -30,31 +26,11 @@ public class KafkaEthApplication {
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
-            CountDownLatch countDownLatch = new CountDownLatch(COUNT);
 
-
-            System.out.println("Waiting for " + COUNT + " transactions...");
-
-            Subscription subscription = web3j.blockObservable(true)
-                    .take(COUNT)
-                    .subscribe(ethBlock -> {
-                        EthBlock.Block block = ethBlock.getBlock();
-                        LocalDateTime timestamp = Instant.ofEpochSecond(
-                                block.getTimestamp().longValueExact()).atZone(ZoneId.of("UTC")).toLocalDateTime();
-
-                        int transactionCount = block.getTransactions().size();
-                        String hash = block.getHash();
-                        String parentHash = block.getParentHash();
-
-                        System.out.println(
-                                timestamp + " " +
-                                        "Tx count: " + transactionCount + ", " +
-                                        "Hash: " + hash + ", " +
-                                        "Parent hash: " + parentHash
-                        );
-
-                        countDownLatch.countDown();
-                    }, Throwable::printStackTrace);
+            Subscription subscription = web3j.transactionObservable().doOnError(System.err::println).subscribe(tx -> {
+                System.out.println(tx.getS() + " " + tx.getV() + " " + tx.getFrom() + " " + tx.getGasPrice() + " " + tx.getTo());
+            });
+            TimeUnit.MINUTES.sleep(2);
 
             subscription.unsubscribe();
         };
