@@ -1,0 +1,43 @@
+version: '3'
+services:
+
+  reverse-proxy:
+    image: traefik #The official Traefik docker image
+    command: >
+      --api --docker --logLevel=DEBUG \
+      --entrypoints='Name:http Address::80 Redirect.EntryPoint:https' \
+      --entrypoints='Name:https Address::443 TLS' \
+      --defaultentrypoints=http,https \
+      --acme \
+      --acme.storage=/etc/traefik/acme/acme.json \
+      --acme.entryPoint=https \
+      --acme.httpChallenge.entryPoint=http \
+      --acme.email=${ACME_EMAIL} \
+      --acme.OnHostRule=true \
+      --acme.onDemand=false
+      
+    ports:
+      - "80:80"     #The HTTP port
+#      - "8080:8080" #The Web UI (enabled by --api)
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock #So that Traefik can listen to the Docker events
+      - acme-storage:/etc/traefik/acme
+
+      
+
+  geth:
+    image: ethereum/client-go:alpine
+    command: --rpc --rpcaddr "0.0.0.0" --rpcvhosts=* --fast --cache=512 --rpcapi personal,db,eth,net,web3 --rinkeby
+    volumes:
+      - geth-data:/root/.ethereum
+    expose:
+      - "8545"
+    labels:
+      - traefik.backend=geth
+      - traefik.frontend.rule=HostRegexp:{subdomain:.+}.${ETH_DOMAIN}
+      - traefik.passHostHeader=false
+
+volumes:
+  geth-data: {}
+  acme-storage: {}
