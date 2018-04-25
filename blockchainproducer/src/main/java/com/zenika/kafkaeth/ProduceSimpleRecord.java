@@ -6,7 +6,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import java.util.Properties;
 
 /**
- * Hello world!
+ * TP: run this class to check if you can send data to "CustomerCountry" topics
  */
 public class ProduceSimpleRecord {
     public static void main(String[] args) {

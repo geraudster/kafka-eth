@@ -31,9 +31,19 @@
       <version>1.1.0</version>
     </dependency>
     <dependency>
+      <groupId>io.confluent</groupId>
+      <artifactId>kafka-avro-serializer</artifactId>
+      <version>4.1.0</version>
+    </dependency>
+    <dependency>
       <groupId>org.web3j</groupId>
       <artifactId>core</artifactId>
       <version>3.3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.avro</groupId>
+      <artifactId>avro</artifactId>
+      <version>1.8.1</version>
     </dependency>
   </dependencies>
 
@@ -79,6 +89,22 @@
           <source>8</source>
           <target>8</target>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.avro</groupId>
+        <artifactId>avro-maven-plugin</artifactId>
+        <version>1.8.1</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>schema</goal>
+            </goals>
+            <configuration>
+              <stringType>String</stringType>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

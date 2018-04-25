@@ -10,42 +10,44 @@ import java.util.Properties;
 /**
  *
  */
-public class BlockchainProducerV1 {
+public class BlockchainProducerV2 {
     public static void main(String[] args) {
-        String ethHttpUrlService = args[0];
-        BlockchainConsumer blockchainConsumer = new BlockchainConsumer(ethHttpUrlService);
+        BlockchainConsumer blockchainConsumer = new BlockchainConsumer(args[0]);
         Properties kafkaProps = new Properties();
         kafkaProps.put("bootstrap.servers", "localhost:9092");
 
         kafkaProps.put("key.serializer",
                 "org.apache.kafka.common.serialization.StringSerializer");
         kafkaProps.put("value.serializer",
-                "org.apache.kafka.common.serialization.StringSerializer");
+                "io.confluent.kafka.serializers.KafkaAvroSerializer");
 
-        // TP: initialize a KafkaProducer
-        KafkaProducer<String, String> producer = new KafkaProducer<>(kafkaProps);
+        kafkaProps.put("schema.registry.url", "http://localhost:8081");
+
+
+        // TP: initialize a KafkaProducer based on Transaction type
+        KafkaProducer<String, Transaction> producer = new KafkaProducer<>(kafkaProps);
 
         // TP: implement sendToKafka method
         //  * Records are sent to a `transactions` topic
         //  * Record ID should be the transaction hash
-        //  * Record value is the transaction value field
+        //  * Record value is the Transaction *object*
         //
-        // Monitor topic with : bin/kafka-console-consumer --bootstrap-server localhost:9092 --topic transactions --from-beginning
+        // Monitor topic with : bin/kafka-avro-console-consumer --bootstrap-server localhost:9092 --topic transactions --from-beginning
         blockchainConsumer.read(tx -> sendToKafka(producer, tx));
     }
 
     // TP: implement
-    private static void sendToKafka(KafkaProducer<String, String> producer, Transaction tx) {
+    private static void sendToKafka(KafkaProducer<String, Transaction> producer, Transaction tx) {
         System.out.println("Sending to kafka: " + tx.getBlockNumber() + " " +
                 tx.getValue() + " " +
                 tx.getFrom() + " " +
                 tx.getGasPrice() + " " +
                 tx.getTo() + " " + tx.getNonce());
 
-        ProducerRecord<String, String> record =
+        ProducerRecord<String, Transaction> record =
                 new ProducerRecord<>("transactions",
                         tx.getHash(),
-                        tx.getValue().toString());
+                        tx);
         try {
             producer.send(record).get();
         } catch (Exception e) {
