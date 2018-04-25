@@ -14,7 +14,8 @@ services:
       --acme.httpChallenge.entryPoint=http \
       --acme.email=${ACME_EMAIL} \
       --acme.OnHostRule=true \
-      --acme.onDemand=false
+      --acme.onDemand=false \
+      --docker.domain=${ETH_DOMAIN}
       
     ports:
       - "80:80"     #The HTTP port
@@ -35,8 +36,9 @@ services:
       - "8545"
     labels:
       - traefik.backend=geth
-      - traefik.frontend.rule=HostRegexp:{subdomain:.+}.${ETH_DOMAIN}
+      - traefik.frontend.rule=Host:client.${ETH_DOMAIN}
       - traefik.passHostHeader=false
+      - traefik.enable=true
 
 volumes:
   geth-data: {}
