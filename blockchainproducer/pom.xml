@@ -12,6 +12,13 @@
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
+  <repositories>
+    <repository>
+      <id>confluent</id>
+      <url>http://packages.confluent.io/maven/</url>
+    </repository>
+  </repositories>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
