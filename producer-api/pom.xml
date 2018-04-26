@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.zenika.kafkaeth</groupId>
-  <artifactId>blockchain-producer</artifactId>
+  <artifactId>producer-api</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>blockchain-producer</name>
+  <name>producer-api</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
@@ -99,7 +99,7 @@
             </execution>
           </executions>
           <configuration>
-            <mainClass>com.zenika.kafkaeth.BlockchainProducerV2</mainClass>
+            <mainClass>com.zenika.kafkaeth.BlockchainProducer</mainClass>
           </configuration>
         </plugin>
       </plugins>

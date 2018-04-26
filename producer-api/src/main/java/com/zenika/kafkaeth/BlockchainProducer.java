@@ -10,7 +10,7 @@ import java.util.Properties;
 /**
  *
  */
-public class BlockchainProducerV2 {
+public class BlockchainProducer {
     public static void main(String[] args) {
         String ethHttpUrlService = args[0];
         BlockchainConsumer blockchainConsumer = new BlockchainConsumer(ethHttpUrlService);
@@ -26,7 +26,7 @@ public class BlockchainProducerV2 {
 
 
         // TP: initialize a KafkaProducer based on Transaction type
-        final KafkaProducer<String, Transaction> producer = new KafkaProducer<>(kafkaProps);
+        final KafkaProducer<?, ?> producer = null;
 
         blockchainConsumer.read(tx -> sendToKafka(producer, tx));
     }
@@ -37,17 +37,9 @@ public class BlockchainProducerV2 {
     //  * Record value is the Transaction *object*
     //
     // Monitor topic with : bin/kafka-avro-console-consumer --bootstrap-server localhost:9092 --topic transactions --from-beginning
-    private static void sendToKafka(KafkaProducer<String, Transaction> producer, Transaction tx) {
+    private static void sendToKafka(KafkaProducer<?, ?> producer, Transaction tx) {
         System.out.println("Sending to kafka: " + tx.toString());
 
-        final ProducerRecord<String, Transaction> record =
-                new ProducerRecord<>("transactions",
-                        tx.getHash(),
-                        tx);
-        try {
-            producer.send(record).get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        final ProducerRecord<?, ?> record = null;
     }
 }
