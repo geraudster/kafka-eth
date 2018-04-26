@@ -10,3 +10,9 @@ Please complete `BlockchainProducer` class.
 ```
 ./mvnw compile exec:java -Dexec.args=[geth client url]
 ```
+
+Check message in `transactions` topic with the command:
+
+```
+bin/kafka-avro-console-consumer --bootstrap-server localhost:9092 --topic transactions --from-beginning
+```
