@@ -7,8 +7,8 @@
      {"name": "blockHash", "type": "string"},
      {"name": "blockNumber", "type": "long"},
      {"name": "transactionIndex", "type": "long"},
-     {"name": "fromAddress", "type": "string"},
-     {"name": "toAddress", "type": ["null", "string"]},
+     {"name": "fromAddress", "type": ["null", "string"], "default": null},
+     {"name": "toAddress", "type": ["null", "string"], "default": null},
      {"name": "value", "type": "double"},
      {"name": "gasPrice", "type": "long"},
      {"name": "gas", "type": "long"}
