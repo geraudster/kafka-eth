@@ -22,10 +22,8 @@ public class BlockchainProducerV1 {
         kafkaProps.put("value.serializer",
                 "org.apache.kafka.common.serialization.StringSerializer");
 
-        // TP: initialize a KafkaProducer
-        KafkaProducer<String, String> producer = new KafkaProducer<>(kafkaProps);
+        final KafkaProducer<String, String> producer = new KafkaProducer<>(kafkaProps);
 
-        // TP: implement sendToKafka method
         //  * Records are sent to a `transactions` topic
         //  * Record ID should be the transaction hash
         //  * Record value is the transaction value field
@@ -34,7 +32,6 @@ public class BlockchainProducerV1 {
         blockchainConsumer.read(tx -> sendToKafka(producer, tx));
     }
 
-    // TP: implement
     private static void sendToKafka(KafkaProducer<String, String> producer, Transaction tx) {
         System.out.println("Sending to kafka: " + tx.getBlockNumber() + " " +
                 tx.getValue() + " " +
@@ -42,7 +39,7 @@ public class BlockchainProducerV1 {
                 tx.getGasPrice() + " " +
                 tx.getTo() + " " + tx.getNonce());
 
-        ProducerRecord<String, String> record =
+        final ProducerRecord<String, String> record =
                 new ProducerRecord<>("transactions",
                         tx.getHash(),
                         tx.getValue().toString());

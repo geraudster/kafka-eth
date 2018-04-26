@@ -18,9 +18,9 @@ public class ProduceSimpleRecord {
         kafkaProps.put("value.serializer",
                 "org.apache.kafka.common.serialization.StringSerializer");
 
-        KafkaProducer<String, String> producer = new KafkaProducer<>(kafkaProps);
+        final KafkaProducer<String, String> producer = new KafkaProducer<>(kafkaProps);
 
-        ProducerRecord<String, String> record =
+        final ProducerRecord<String, String> record =
                 new ProducerRecord<>("CustomerCountry", "Precision Products",
                         "France");
         try {

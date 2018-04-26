@@ -12,7 +12,8 @@ import java.util.Properties;
  */
 public class BlockchainProducerV2 {
     public static void main(String[] args) {
-        BlockchainConsumer blockchainConsumer = new BlockchainConsumer(args[0]);
+        String ethHttpUrlService = args[0];
+        BlockchainConsumer blockchainConsumer = new BlockchainConsumer(ethHttpUrlService);
         Properties kafkaProps = new Properties();
         kafkaProps.put("bootstrap.servers", "localhost:9092");
 
@@ -25,7 +26,7 @@ public class BlockchainProducerV2 {
 
 
         // TP: initialize a KafkaProducer based on Transaction type
-        KafkaProducer<String, Transaction> producer = new KafkaProducer<>(kafkaProps);
+        final KafkaProducer<String, Transaction> producer = new KafkaProducer<>(kafkaProps);
 
         // TP: implement sendToKafka method
         //  * Records are sent to a `transactions` topic
@@ -44,7 +45,7 @@ public class BlockchainProducerV2 {
                 tx.getGasPrice() + " " +
                 tx.getTo() + " " + tx.getNonce());
 
-        ProducerRecord<String, Transaction> record =
+        final ProducerRecord<String, Transaction> record =
                 new ProducerRecord<>("transactions",
                         tx.getHash(),
                         tx);
