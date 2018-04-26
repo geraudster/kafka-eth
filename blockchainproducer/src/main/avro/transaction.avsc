@@ -11,6 +11,8 @@
      {"name": "toAddress", "type": ["null", "string"]},
      {"name": "value", "type": "double"},
      {"name": "gasPrice", "type": "long"},
-     {"name": "gas", "type": "long"}
+     {"name": "gas", "type": "long"},
+     {"name": "fromName", "type": ["null", "string"]},
+     {"name": "toName", "type": ["null", "string"]}
      ]
 }
