@@ -24,6 +24,6 @@ WHERE value > 1;
 -- Stream to table
 
 CREATE TABLE big_transactions_stats AS \
-SELECT toAddress, sum(value), count(value) \
+SELECT fromAddress, sum(value), count(value) \
 FROM transactions WINDOW TUMBLING (size 1 minute) \
-GROUP BY toAddress;
+GROUP BY fromAddress;
