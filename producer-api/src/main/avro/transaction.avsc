@@ -1,0 +1,16 @@
+{"namespace": "com.zenika.kafkaeth.domain",
+ "type": "record",
+ "name": "Transaction",
+ "fields": [
+     {"name": "nonce", "type": "long"},
+     {"name": "hash", "type": "string"},
+     {"name": "blockHash", "type": "string"},
+     {"name": "blockNumber", "type": "long"},
+     {"name": "transactionIndex", "type": "long"},
+     {"name": "fromAddress", "type": "string"},
+     {"name": "toAddress", "type": ["null", "string"]},
+     {"name": "value", "type": "double"},
+     {"name": "gasPrice", "type": "long"},
+     {"name": "gas", "type": "long"}
+     ]
+}
