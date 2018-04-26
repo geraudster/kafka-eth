@@ -40,9 +40,9 @@ public class BlockchainProducerV2 {
     private static void sendToKafka(KafkaProducer<String, Transaction> producer, Transaction tx) {
         System.out.println("Sending to kafka: " + tx.getBlockNumber() + " " +
                 tx.getValue() + " " +
-                tx.getFrom() + " " +
+                tx.getFromAddress() + " " +
                 tx.getGasPrice() + " " +
-                tx.getTo() + " " + tx.getNonce());
+                tx.getToAddress() + " " + tx.getNonce());
 
         ProducerRecord<String, Transaction> record =
                 new ProducerRecord<>("transactions",
