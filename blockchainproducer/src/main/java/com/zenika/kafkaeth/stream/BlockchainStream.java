@@ -39,11 +39,10 @@ public class BlockchainStream {
 
         KStream<String, Transaction> inputTx = builder.stream(TOPIC_INPUT);
 
-        KTable<String, Long> nbTxByUser = inputTx.map((key, transaction) -> new KeyValue<>(transaction.getFromAddress(), transaction))
-                .groupByKey()
-                .count();
+        //TODO Implement
+        KTable<String, Long> nbTxByUser = null;
 
-        nbTxByUser.toStream().to(NB_TX_BY_USER_OUTPUT, Produced.with(Serdes.String(), Serdes.Long()));
+
 
         final Properties streamsConfiguration = initTxByUserStreamProperties();
         KafkaStreams streams = new KafkaStreams(builder.build(), streamsConfiguration);
@@ -67,10 +66,8 @@ public class BlockchainStream {
 
         KStream<String, Transaction> inputTx = builder.stream(TOPIC_INPUT);
 
-        KTable<String, Double> valueByUser = inputTx.map((key, transaction) -> new KeyValue<>(transaction.getFromAddress(), transaction))
-                .mapValues(Transaction::getValue)
-                .groupByKey()
-                .reduce(Double::sum);
+        //TODO implement
+        KTable<String, Double> valueByUser = null;
 
         valueByUser.toStream().to(VALUE_BY_USER_OUTPUT, Produced.with(Serdes.String(), Serdes.Double()));
 
