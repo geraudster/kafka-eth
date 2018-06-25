@@ -1,4 +1,4 @@
-This project stores data in blockchain.
+Exemple de récupération de données depuis la blockchain et envoi dans Kafka.
 
 
 # Run
