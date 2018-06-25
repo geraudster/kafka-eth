@@ -1,7 +1,7 @@
 # Windows
 ### Prérequis
 * Git
-* Java 8/9
+* Java 8
 * IDE Java
 * Docker for Windows https://store.docker.com/editions/community/docker-ce-desktop-windows
 Lors de l'installation, Docker propose d'activer Hyper-V. Il faut accepter, l'ordinateur va redémarrer.
@@ -36,7 +36,7 @@ Si vous avez une erreur d'authorisation sur la récupération des images, votre 
 # Linux & Mac OS
 ### Prérequis
 * Git
-* Java 8/9
+* Java 8
 * IDE Java
 
 ### Premiers pas
