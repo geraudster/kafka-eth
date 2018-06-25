@@ -47,5 +47,7 @@ public class WordCount {
 //        streams.start();
 //
 //        Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
+
+        System.out.println("WordCount started");
     }
 }
