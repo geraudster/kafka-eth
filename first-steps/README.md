@@ -1,6 +1,8 @@
 # Windows
 ### Prérequis
-* VirtualBox https://www.virtualbox.org/wiki/Downloads
+* Git
+* Java 8/9
+* IDE Java
 * Docker for Windows https://store.docker.com/editions/community/docker-ce-desktop-windows
 Lors de l'installation, Docker propose d'activer Hyper-V. Il faut accepter, l'ordinateur va redémarrer.
 
@@ -31,9 +33,12 @@ Si vous avez une erreur d'authorisation sur la récupération des images, votre 
 
 `docker-compose exec kafka kafka-console-consumer --bootstrap-server localhost:9092 --topic test --from-beginning`
 
-# Linux
+# Linux & Mac OS
 ### Prérequis
+* Git
 * Java 8/9
+* IDE Java
+
 ### Premiers pas
 1. Télécharger et décompresser Confluent Open Source
 
@@ -63,4 +68,3 @@ Si vous avez une erreur d'authorisation sur la récupération des images, votre 
 
 `bin/kafka-console-consumer --bootstrap-server localhost:9092 --topic test --from-beginning`
 
-# Mac OS
