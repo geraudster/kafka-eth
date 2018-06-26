@@ -1,6 +1,6 @@
 -- Create stream
 
-CREATE STREAM transactions () \
+CREATE STREAM transactions \
 WITH (KAFKA_TOPIC='transactions', VALUE_FORMAT='avro');
 
 -- Queries
