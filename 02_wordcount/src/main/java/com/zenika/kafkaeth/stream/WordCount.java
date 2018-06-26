@@ -1,14 +1,11 @@
 package com.zenika.kafkaeth.stream;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
-import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.KStreamBuilder;
 import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Produced;
 
@@ -33,20 +30,22 @@ public class WordCount {
         // In the subsequent lines we define the processing topology of the Streams application.
         final StreamsBuilder builder = new StreamsBuilder();
 
+        final KStream<String, String> textLines = builder.stream(TOPIC_WORDCOUNT_INPUT);
 
-        //*****************
-        //TODO : A IMPLEMENTER EN SUIVANT LES ETAPES
-        //*****************
+        final Pattern pattern = Pattern.compile("\\W+", Pattern.UNICODE_CHARACTER_CLASS);
 
-        //1- Streamer les lignes du topic input
-        //2- Faire un lower case + ressortir les mots de la ligne (split espace)
-        //3- Regrouper par mot
-        //4- compter le nombre d'occurence
-        //5- Envoyer le résultat dans le topic output
+        final KTable<String, Long> wordCounts = textLines
+                .flatMapValues(value -> Arrays.asList(pattern.split(value.toLowerCase())))
+                .groupBy((key, value) -> value)
+                .count();
 
-//        streams.start();
-//
-//        Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
+        wordCounts.toStream().to(TOPIC_WORDCOUNT_OUTPUT, Produced.with(Serdes.String(), Serdes.Long()));
+
+        final KafkaStreams streams = new KafkaStreams(builder.build(), streamsConfiguration);
+
+        streams.start();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
 
         System.out.println("WordCount started");
     }
