@@ -18,7 +18,7 @@ bin/confluent start
 ```
 docker-compose exec kafka \
     kafka-topics --create --topic wordcount-input \
-                 --zookeeper localhost:2181 \
+                 --zookeeper zookeeper:2181 \
                  --partitions 1 --replication-factor 1
 ```
 **Linux**
@@ -34,7 +34,7 @@ bin/kafka-topics --create --topic wordcount-input \
 ```
 docker-compose exec kafka \
     kafka-topics --create --topic streams-wordcount-output \
-                 --zookeeper localhost:2181 \
+                 --zookeeper zookeeper:2181 \
                  --partitions 1 --replication-factor 1
 ```
 **Linux**
@@ -52,7 +52,7 @@ bin/kafka-topics --create --topic streams-wordcount-output \
 **Windows**
 ```
 docker-compose exec kafka \
-    kafka-console-producer --broker-list localhost:9092 --topic wordcount-input
+    kafka-console-producer --broker-list kafka:9092 --topic wordcount-input
 ```
 **Linux**
 ```
@@ -66,7 +66,7 @@ bin/kafka-console-producer --broker-list localhost:9092 --topic wordcount-input
 ```
 docker-compose exec kafka \
     kafka-console-consumer --topic streams-wordcount-output --from-beginning \
-                           --bootstrap-server localhost:9092 \
+                           --bootstrap-server kafka:9092 \
                            --property print.key=true \
                            --property value.deserializer=org.apache.kafka.common.serialization.LongDeserializer
 ```

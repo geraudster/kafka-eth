@@ -3,7 +3,7 @@
 * Git
 * Java 8
 * IDE Java
-* Docker for Windows https://store.docker.com/editions/community/docker-ce-desktop-windows
+* Docker for Windows https://store.docker.com/editions/community/docker-ce-desktop-windows<br>
 Lors de l'installation, Docker propose d'activer Hyper-V. Il faut accepter, l'ordinateur va redémarrer.
 
 ### Premiers pas
@@ -19,19 +19,19 @@ Si vous avez une erreur d'authorisation sur la récupération des images, votre 
 
 2. Créer un topic input **test**
 
-`docker-compose exec kafka kafka-topics --zookeeper localhost:2181 --create --topic test --partitions 1 --replication-factor 1`
+`docker-compose exec kafka kafka-topics --zookeeper zookeeper:2181 --create --topic test --partitions 1 --replication-factor 1`
 
 3. Vérifier que le topic soit bien présent
 
-`docker-compose exec kafka kafka-topics --list --zookeeper localhost:2181`
+`docker-compose exec kafka kafka-topics --list --zookeeper zookeeper:2181`
 
 4. Envoyer quelques messages
 
-`docker-compose exec kafka kafka-console-producer --broker-list localhost:9092 --topic test`
+`docker-compose exec kafka kafka-console-producer --broker-list kafka:9092 --topic test`
 
 5. Consommer les messages
 
-`docker-compose exec kafka kafka-console-consumer --bootstrap-server localhost:9092 --topic test --from-beginning`
+`docker-compose exec kafka kafka-console-consumer --bootstrap-server kafka:9092 --topic test --from-beginning`
 
 # Linux & Mac OS
 ### Prérequis
