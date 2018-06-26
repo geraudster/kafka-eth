@@ -1,16 +1,23 @@
-# Practice
+# KSQL
 
-Use [KSQL](https://docs.confluent.io/current/quickstart/ce-quickstart.html) to perform stream analysis.
+## Objectif
 
-Start ksql client :
+L'objectif de ce TP va être d'utiliser [KSQL](https://docs.confluent.io/current/quickstart/ce-quickstart.html) pour effectuer de l'analyse de streams.
+
+## TP
+1. Démarrer le client KSQL :
+
+**Windows**
+```
+docker-compose exec ksql-cli ksql http://ksql-server:8088
+```
+**Linux**
 ```
 bin/ksql
 ```
 
-Then follow the steps: 
-
-* Create a stream named `transactions` based on `transactions` topic
-* Display 3 events from that stream
-* Display events with `value` (=amount) greater than 1 ETH
-* Create a persistent query from the previous query
-* Compute average amount by address per minutes (hint: you'll have to create a TABLE, and a WINDOW TUMBLING)
+2. Créer le stream `transactions` basé sur le topic `transactions`
+3. Afficher 3 éléments de ce streams
+4. Afficher les éléments qui ont leur `value` (=amount) supérieure à 1 ETH
+5. Créer une query persistante à partir de la query précédente
+6. Calculer le montant moyen par adresse par minutes (indice : vous allez devoir créer une TABLE et une WINDOW TUMBLING)
