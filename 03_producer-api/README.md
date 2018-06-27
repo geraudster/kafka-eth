@@ -57,6 +57,28 @@ Nous allons maintenant consommer les données importées dans Kafka pour calcule
 
 * À partir du topic `transactions`, calculer le nombre de transactions par utilisateur (champ `fromAddress` de la classe `Transaction`)
 * Placer le résultat dans un topic `nb_tx_by_user`
+* Utiliser la commande suivante pour vérifier le contenu du topic:
+
+```
+bin/kafka-console-consumer --bootstrap-server localhost:9092 --topic nb_tx_by_user \
+    --from-beginning --property print.key=true \
+    --property value.deserializer=org.apache.kafka.common.serialization.LongDeserializer
+```
+
+Il vous faudra utiliser un `Serdes` Avro pour utiliser le type `Transaction`:
+
+```
+
+        final Map<String, String> serdeConfig = Collections.singletonMap("schema.registry.url",
+                SCHEMA_REGISTRY_URL);
+
+        final Serde<Transaction> valueSpecificAvroSerde = new SpecificAvroSerde<>();
+        valueSpecificAvroSerde.configure(serdeConfig, false);
+
+```
+
+Il faudra également utiliser `groupByKey`, auquel cas vous devrez y spécifier les sérialiseurs à l'aide de `Serialized.with(keySerdes, valueSerdes`
+
 
 ### Cumul des transactions par utilisateurs
 
