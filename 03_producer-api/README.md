@@ -31,3 +31,19 @@ docker-compose exec schema-registry \
 ```
 bin/kafka-avro-console-consumer --bootstrap-server localhost:9092 --topic transactions --from-beginning
 ```
+
+## Tips
+
+* `KafkaProducer`: le client Kafka chargé d'envoyer les `ProducerRecord`.
+  * Config
+    * bootstrap.servers: 1 or + IPs of Kafka brokers (i.e. : localhost:9092)
+    * key.serializer and value.serializer: Class names for key/value serialization
+    * schema.registry.url: when using Avro serialization (i.e. : http://localhost:8081)
+  * Serializer : IntegerSerializer, StringSerializer, JsonSerializer, KafkaAvroSerializer…
+  * send() → méthode pour envoyer un record (retourne un `Future`)
+
+* `ProducerRecord`: La clé/valeur à envoyer
+  * (topic, clé, valeur) ici la clé est le hash de la transaction, la valeur est l'objet `Transaction`
+  * on utilise le `KafkaAvroSerializer` pour la valeur, il va se baser sur le schéma pour la sérialisation des objets `Transation`
+
+* Si le type `Transaction` apparaît en erreur dans votre IDE, lancer un `mvn generate-sources`
