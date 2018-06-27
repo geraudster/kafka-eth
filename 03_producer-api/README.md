@@ -2,9 +2,9 @@
 
 ## Objectif
 
-L'objectif de ce TP va être d'envoyer les transactions de la blockchain dans un topic Kafka pour ensuite les manipuler avec lmes Kafka Streams.
+L'objectif de ce TP va être d'envoyer les transactions de la blockchain dans un topic Kafka pour ensuite les manipuler avec les Kafka Streams.
 
-## TP
+## Exo 1 - Mise en oeuvre du `KafkaProducer`
 1. Complétez la classe `BlockchainProducer` afin d'envoyer les transactions de la blockchain dans le topic `transactions`
 
 2. Démarrer le projet
@@ -31,3 +31,36 @@ docker-compose exec schema-registry \
 ```
 bin/kafka-avro-console-consumer --bootstrap-server localhost:9092 --topic transactions --from-beginning
 ```
+
+#### Tips
+
+* `KafkaProducer`: le client Kafka chargé d'envoyer les `ProducerRecord`.
+  * Config
+    * bootstrap.servers: 1 or + IPs of Kafka brokers (i.e. : localhost:9092)
+    * key.serializer and value.serializer: Class names for key/value serialization
+    * schema.registry.url: when using Avro serialization (i.e. : http://localhost:8081)
+  * Serializer : IntegerSerializer, StringSerializer, JsonSerializer, KafkaAvroSerializer…
+  * send() → méthode pour envoyer un record (retourne un `Future`)
+
+* `ProducerRecord`: La clé/valeur à envoyer
+  * (topic, clé, valeur) ici la clé est le hash de la transaction, la valeur est l'objet `Transaction`
+  * on utilise le `KafkaAvroSerializer` pour la valeur, il va se baser sur le schéma pour la sérialisation des objets `Transation`
+
+* Si le type `Transaction` apparaît en erreur dans votre IDE, lancer un `mvn generate-sources`
+
+
+## Exo 2 - Utilisation des Kafka Streams
+
+Nous allons maintenant consommer les données importées dans Kafka pour calculer quelques stats.
+
+### Nombre de transactions par utilisateurs
+
+* À partir du topic `transactions`, calculer le nombre de transactions par utilisateur (champ `fromAddress` de la classe `Transaction`)
+* Placer le résultat dans un topic `nb_tx_by_user`
+
+### Cumul des transactions par utilisateurs
+
+* À partir du topic `transactions`, calculer le montant (champ `value`) des transactions par utilisateur (champ `fromAddress` de la classe `Transaction`)
+* Placer le résultat dans un topic `value_by_user`
+
+Il faudra utiliser l'opérateur `reduce`.
